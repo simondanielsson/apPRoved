@@ -1,0 +1,15 @@
+# Alembic
+
+## Getting started
+
+Create a revision:
+
+```bash
+alembic revision --autogenerate -m <message>
+```
+
+Upgrade database to head:
+
+```bash
+alembic upgrade head
+```

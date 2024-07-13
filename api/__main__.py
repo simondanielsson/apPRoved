@@ -20,7 +20,7 @@ def main() -> None:
     uvicorn.run(
         "api.api:api",
         host="localhost",
-        port=8080,
+        port=8082,
         reload=args.debug,
         access_log=True,
         log_config=read_logging_config(),
