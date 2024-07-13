@@ -19,3 +19,8 @@ database:
 # Authentication configuration.
 secret_key: ${SECRET_KEY}
 secret_algorithm: HS256
+
+# Github authentication
+github_token: ${GITHUB_TOKEN}
+
+request_timeout: 600.0

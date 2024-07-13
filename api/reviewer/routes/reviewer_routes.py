@@ -5,15 +5,73 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import JSONResponse
+import github
+from starlette.status import HTTP_201_CREATED
 
 from api.common.models.user import User
 from api.common.services.auth_service import get_current_user
-from api.reviewer.dto.requests import RegisterPRRequest
+from api.common.services.github_services import get_github_client
+from api.reviewer.dto.requests import (
+    AddRepositoryRequest,
+    CreateReviewRequest,
+    RegisterPRRequest,
+)
 from api.reviewer.models.pull_request import PullRequest
 from api.reviewer.models.review import Review
 from api.utils.constants import ApplicationTags
+from api.reviewer.services import pull_request_services
 
 reviewer_router = APIRouter()
+
+
+@reviewer_router.post(
+    "/repositories",
+    tags=[ApplicationTags.REVIEWER_TAG],
+    status_code=HTTP_201_CREATED,
+)
+async def add_repository(
+    request: AddRepositoryRequest,
+    _user: Annotated[User, Depends(get_current_user)],
+) -> JSONResponse:
+    """Register a repository."""
+    # TODO: implement
+    repository_id = 1
+
+    response_payload = {"repository_id": repository_id, "message": "Repository added."}
+
+    headers = {"Location": f"/repositories/{repository_id}"}
+    return JSONResponse(
+        content=response_payload,
+        headers=headers,
+        status_code=HTTP_201_CREATED,
+    )
+
+
+@reviewer_router.post(
+    "/repositories/{repository_id}/pull_requests/{pull_request_id}/reviews",
+    tags=[ApplicationTags.REVIEWER_TAG],
+)
+async def create_review(
+    repository_id: int,
+    pull_request_id: int,
+    request: CreateReviewRequest,
+    _user: Annotated[User, Depends(get_current_user)],
+) -> JSONResponse:
+    """Create a review using AI."""
+    review_id = await pull_request_services.create_review(
+        repository=request.repository,
+        pull_request_number=request.pull_request_number,
+    )
+
+    response_payload = {"review_id": review_id, "message": "Review created."}
+
+    headers = {"Location": f"/reviews/{review_id}"}
+
+    return JSONResponse(
+        content=response_payload,
+        headers=headers,
+        status_code=HTTP_201_CREATED,
+    )
 
 
 @reviewer_router.get(
@@ -28,6 +86,7 @@ async def get_reviews(
 
     :param pull_request_id: The pull request ID.
     """
+    # TODO: fix path
     return [Review(id=1, pull_request_id=pull_request_id, content="LGTM!")]
 
 
