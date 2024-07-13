@@ -6,16 +6,21 @@ from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
+from api.common.routes.general_routes import general_router
+from api.reviewer.routes.reviewer_routes import reviewer_router
+from api.utils.constants import ApplicationTags
+from api.utils.database import init_db
+
 logger = logging.getLogger(__name__)
 
 tags_metadata = [
     {
-        "name": "gateway",
-        "description": "Gateway endpoints.",
+        "name": ApplicationTags.DEFAULT_TAG,
+        "description": "Default operations.",
     },
     {
-        "name": "reviewer",
-        "description": "PR reviewer endpoints.",
+        "name": ApplicationTags.REVIEWER_TAG,
+        "description": "Review PR operations.",
     },
 ]
 
@@ -45,3 +50,13 @@ async def catch_api_all() -> FileResponse:
     :return: When we reach this part of the routing precedence, return 404.
     """
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+
+
+api.include_router(general_router, tags=["/api"])
+api.include_router(reviewer_router, tags=["/api/reviewer"])
+
+
+@api.on_event("startup")
+async def on_startup() -> None:
+    """Run hooks on startup."""
+    await init_db()

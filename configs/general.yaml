@@ -1,1 +1,21 @@
 environment: ${ENVIRONMENT}
+
+# Database configuration.
+database:
+  dialect: ${DB_DIALECT}
+  host: ${DB_HOST}
+  port: ${DB_PORT}
+  db_name: ${DB_NAME}
+  username: ${DB_USER}
+  password: ${DB_PASSWORD}
+  # Application specific database configuration.
+  common:
+    # app: Refers to data used by web application.
+    app: common_app
+  reviewer:
+    # app: Refers to data used by web application.
+    app: reviewer_app
+
+# Authentication configuration.
+secret_key: ${SECRET_KEY}
+secret_algorithm: HS256
