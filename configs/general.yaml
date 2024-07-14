@@ -24,3 +24,10 @@ secret_algorithm: HS256
 github_token: ${GITHUB_TOKEN}
 
 request_timeout: 600.0
+max_concurrent_file_reviews: 5
+
+# LLM configuration.
+provider_to_llm:
+  openai: gpt-4o
+llm_provider: openai
+llm_config:

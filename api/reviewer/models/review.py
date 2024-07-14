@@ -15,7 +15,6 @@ class Review(BaseModel):
 
     id: int
     pull_request_id: int
-    content: str
 
     class Config:
         """Config class."""

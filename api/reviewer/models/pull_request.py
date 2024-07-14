@@ -1,6 +1,5 @@
 """Models for a pull request."""
 
-from datetime import datetime
 
 from pydantic import BaseModel
 
@@ -19,8 +18,15 @@ class PullRequest(BaseModel):
     """
 
     id: int
-    user_id: int
-    title: str
-    description: str
-    created_at: datetime
-    updated_at: datetime
+    repository_id: int
+    pull_request_number: int
+
+
+class PullRequestFileChanges(BaseModel):
+    """Changes made to a file in a pull request."""
+
+    filename: str
+    patch: str
+    additions: int
+    deletions: int
+    changes: int
