@@ -19,3 +19,15 @@ database:
 # Authentication configuration.
 secret_key: ${SECRET_KEY}
 secret_algorithm: HS256
+
+# Github authentication
+github_token: ${GITHUB_TOKEN}
+
+request_timeout: 600.0
+max_concurrent_file_reviews: 5
+
+# LLM configuration.
+provider_to_llm:
+  openai: gpt-4o
+llm_provider: openai
+llm_config:

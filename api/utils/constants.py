@@ -12,3 +12,15 @@ class ApplicationTags(StrEnum):
 
     DEFAULT_TAG = "default"
     REVIEWER_TAG = "reviewer"
+
+
+class Tools(StrEnum):
+    """Tools accomplish steps in a chain."""
+
+    REVIEW_PULL_REQUEST = "review_pull_request"
+
+
+class LLMProvider(StrEnum):
+    """LLM providers."""
+
+    OPENAI = "openai"
